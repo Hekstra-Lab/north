@@ -1,0 +1,91 @@
+DIALS (2018) Acta Cryst. D74, 85-97. https://doi.org/10.1107/S2059798317017235
+DIALS 2.0.0-g3a124fae2
+The following parameters have been modified:
+
+spotfinder {
+  mp {
+    nproc = 10
+  }
+}
+input {
+  experiments = imported.expt
+}
+
+Setting spotfinder.filter.min_spot_size=3
+Configuring spot finder from input parameters
+--------------------------------------------------------------------------------
+Finding strong spots in imageset 0
+--------------------------------------------------------------------------------
+
+
+Finding spots in image 1 to 5...
+Setting chunksize=1
+Extracting strong pixels from images
+ Using multiprocessing with 5 parallel job(s)
+
+Found 5941 strong pixels on image 1
+Found 6046 strong pixels on image 2
+Found 6171 strong pixels on image 3
+Found 6158 strong pixels on image 4
+Found 6049 strong pixels on image 5
+
+Extracted 3610 spots
+Removed 467 spots with size < 3 pixels
+Removed 0 spots with size > 1000 pixels
+Calculated 3143 spot centroids
+Calculated 3143 spot intensities
+Filtered 3140 of 3143 spots by peak-centroid distance
+--------------------------------------------------------------------------------
+Finding strong spots in imageset 1
+--------------------------------------------------------------------------------
+
+
+Finding spots in image 1 to 5...
+Setting chunksize=1
+Extracting strong pixels from images
+ Using multiprocessing with 5 parallel job(s)
+
+Found 4585 strong pixels on image 1
+Found 4678 strong pixels on image 2
+Found 4672 strong pixels on image 3
+Found 4722 strong pixels on image 4
+Found 4323 strong pixels on image 5
+
+Extracted 4134 spots
+Removed 941 spots with size < 3 pixels
+Removed 0 spots with size > 1000 pixels
+Calculated 3193 spot centroids
+Calculated 3193 spot intensities
+Filtered 3184 of 3193 spots by peak-centroid distance
+
+Histogram of per-image spot count for imageset 0:
+3140 spots found on 5 images (max 934 / bin)
+*   *
+*   *
+*   *
+* * *
+* * *
+* * *
+*****
+*****
+*****
+*****
+1   5
+
+Histogram of per-image spot count for imageset 1:
+3184 spots found on 5 images (max 950 / bin)
+*   *
+*   *
+*   *
+* * *
+* * *
+* * *
+*****
+*****
+*****
+*****
+1   5
+
+--------------------------------------------------------------------------------
+Saved 6324 reflections to strong.refl
+Time Taken: 1.241067

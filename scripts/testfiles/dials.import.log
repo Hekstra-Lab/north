@@ -1,0 +1,31 @@
+DIALS (2018) Acta Cryst. D74, 85-97. https://doi.org/10.1107/S2059798317017235
+DIALS 2.0.0-g3a124fae2
+The following parameters have been modified:
+
+input {
+  reference_geometry = "/home/userbmc/processing/reference_geometry.expt"
+  experiments = <image files>
+}
+geometry {
+  goniometer {
+    invert_rotation_axis = True
+  }
+  scan {
+    image_range = 1 5
+  }
+}
+
+
+Applying input geometry in the following order:
+  1. Reference geometry
+  2. Manual geometry
+
+--------------------------------------------------------------------------------
+  format: <class 'dxtbx.format.FormatCBFMiniPilatus.FormatCBFMiniPilatus'>
+  num images: 10
+  sequences:
+    still:    0
+    sweep:    2
+  num stills: 0
+--------------------------------------------------------------------------------
+Writing experiments to imported.expt

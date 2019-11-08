@@ -1,0 +1,88 @@
+DIALS (2018) Acta Cryst. D74, 85-97. https://doi.org/10.1107/S2059798317017235
+DIALS 2.0.0-g3a124fae2
+The following parameters have been modified:
+
+refinement {
+  parameterisation {
+    scan_varying = False
+  }
+}
+input {
+  experiments = indexed.expt
+  reflections = indexed.refl
+}
+
+Configuring refiner
+
+Summary statistics for 5469 observations matched to predictions:
+--------------------------------------------------------------------------
+|                   | Min     | Q1       | Med        | Q3      | Max    |
+--------------------------------------------------------------------------
+| Xc - Xo (mm)      | -0.9438 | -0.03111 | 0.0001709  | 0.02862 | 0.8833 |
+| Yc - Yo (mm)      | -1.257  | -0.0202  | -0.0007319 | 0.01964 | 1.536  |
+| Phic - Phio (deg) | -3.972  | -0.2125  | 0.005854   | 0.2226  | 4.46   |
+| X weights         | 357.6   | 397.3    | 401.9      | 404.4   | 405.6  |
+| Y weights         | 356.8   | 396.7    | 401.6      | 404.3   | 405.6  |
+| Phi weights       | 11.04   | 12       | 12         | 12      | 12     |
+--------------------------------------------------------------------------
+
+Detecting centroid outliers using the MCD algorithm
+575 reflections have been flagged as outliers
+
+Summary statistics for 4894 observations matched to predictions:
+----------------------------------------------------------------------------
+|                   | Min      | Q1       | Med        | Q3      | Max     |
+----------------------------------------------------------------------------
+| Xc - Xo (mm)      | -0.1308  | -0.02773 | 0.0009861  | 0.028   | 0.1155  |
+| Yc - Yo (mm)      | -0.08099 | -0.01847 | -0.0007859 | 0.01746 | 0.07556 |
+| Phic - Phio (deg) | -0.8573  | -0.2028  | 0.005509   | 0.2158  | 0.8279  |
+| X weights         | 357.6    | 398.2    | 402.4      | 404.6   | 405.6   |
+| Y weights         | 358.1    | 397.5    | 402        | 404.4   | 405.6   |
+| Phi weights       | 11.75    | 12       | 12         | 12      | 12      |
+----------------------------------------------------------------------------
+
+There are 16 parameters to refine against 4894 reflections in 3 dimensions
+Performing refinement of 2 Experiments...
+
+Refinement steps:
+------------------------------------------------
+| Step | Nref | RMSD_X   | RMSD_Y   | RMSD_Phi |
+|      |      | (mm)     | (mm)     | (deg)    |
+------------------------------------------------
+| 0    | 4894 | 0.037915 | 0.025107 | 0.25727  |
+| 1    | 4894 | 0.037893 | 0.025084 | 0.25723  |
+| 2    | 4894 | 0.037867 | 0.025097 | 0.25722  |
+| 3    | 4894 | 0.037837 | 0.025121 | 0.2572   |
+| 4    | 4894 | 0.037816 | 0.025143 | 0.25718  |
+| 5    | 4894 | 0.037809 | 0.025152 | 0.25717  |
+| 6    | 4894 | 0.037807 | 0.025153 | 0.25717  |
+------------------------------------------------
+RMSD no longer decreasing
+
+RMSDs by experiment:
+---------------------------------------------
+| Exp | Nref | RMSD_X  | RMSD_Y  | RMSD_Z   |
+| id  |      | (px)    | (px)    | (images) |
+---------------------------------------------
+| 0   | 2595 | 0.21431 | 0.15271 | 0.25005  |
+| 1   | 2299 | 0.22586 | 0.13857 | 0.26497  |
+---------------------------------------------
+Updating predictions for indexed reflections
+
+Final refined crystal model:
+Crystal:
+    Unit cell: (33.9434(19), 44.792(2), 98.803(6), 90.0039(11), 90.0081(10), 90.0179(12))
+    Space group: P 1
+    U matrix:  {{ 0.3630,  0.9318,  0.0046},
+                {-0.6250,  0.2472, -0.7404},
+                {-0.6911,  0.2659,  0.6721}}
+    B matrix:  {{ 0.0295,  0.0000,  0.0000},
+                { 0.0000,  0.0223,  0.0000},
+                { 0.0000,  0.0000,  0.0101}}
+    A = UB:    {{ 0.0107,  0.0208,  0.0000},
+                {-0.0184,  0.0055, -0.0075},
+                {-0.0204,  0.0059,  0.0068}}
+Saving refined experiments to refined.expt
+Saving reflections with updated predictions to refined.refl
+
+Total time taken: 1.05s
