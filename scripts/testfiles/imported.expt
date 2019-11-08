@@ -1,0 +1,315 @@
+{
+  "__id__": "ExperimentList", 
+  "experiment": [
+    {
+      "__id__": "Experiment", 
+      "identifier": "", 
+      "beam": 0, 
+      "detector": 0, 
+      "goniometer": 0, 
+      "scan": 0, 
+      "imageset": 0
+    }, 
+    {
+      "__id__": "Experiment", 
+      "identifier": "", 
+      "beam": 0, 
+      "detector": 0, 
+      "goniometer": 0, 
+      "scan": 1, 
+      "imageset": 1
+    }
+  ], 
+  "imageset": [
+    {
+      "__id__": "ImageSequence", 
+      "template": "/home/userbmc/hekstra_201911/base018/Data_001_####.cbf", 
+      "mask": "", 
+      "gain": "", 
+      "pedestal": "", 
+      "dx": "", 
+      "dy": "", 
+      "params": {
+        "dynamic_shadowing": "Auto", 
+        "multi_panel": false
+      }
+    }, 
+    {
+      "__id__": "ImageSequence", 
+      "template": "/home/userbmc/hekstra_201911/base018/Data_002_####.cbf", 
+      "mask": "", 
+      "gain": "", 
+      "pedestal": "", 
+      "dx": "", 
+      "dy": "", 
+      "params": {
+        "dynamic_shadowing": "Auto", 
+        "multi_panel": false
+      }
+    }
+  ], 
+  "profile": [], 
+  "crystal": [], 
+  "scan": [
+    {
+      "exposure_time": [
+        0.5, 
+        0.5, 
+        0.5, 
+        0.5, 
+        0.5
+      ], 
+      "batch_offset": 0, 
+      "oscillation": [
+        0.0, 
+        1.0
+      ], 
+      "valid_image_ranges": {}, 
+      "epochs": [
+        1573133089.725, 
+        1573133090.224, 
+        1573133090.724, 
+        1573133091.224, 
+        1573133091.724
+      ], 
+      "image_range": [
+        1, 
+        5
+      ]
+    }, 
+    {
+      "exposure_time": [
+        0.5, 
+        0.5, 
+        0.5, 
+        0.5, 
+        0.5
+      ], 
+      "batch_offset": 0, 
+      "oscillation": [
+        90.0, 
+        1.0
+      ], 
+      "valid_image_ranges": {}, 
+      "epochs": [
+        1573133104.535, 
+        1573133105.035, 
+        1573133105.535, 
+        1573133106.035, 
+        1573133106.535
+      ], 
+      "image_range": [
+        1, 
+        5
+      ]
+    }
+  ], 
+  "goniometer": [
+    {
+      "setting_rotation": [
+        1.0, 
+        0.0, 
+        0.0, 
+        0.0, 
+        1.0, 
+        0.0, 
+        0.0, 
+        0.0, 
+        1.0
+      ], 
+      "fixed_rotation": [
+        1.0, 
+        0.0, 
+        0.0, 
+        0.0, 
+        1.0, 
+        0.0, 
+        0.0, 
+        0.0, 
+        1.0
+      ], 
+      "rotation_axis": [
+        -1.0, 
+        -0.0, 
+        -0.0
+      ]
+    }
+  ], 
+  "beam": [
+    {
+      "direction": [
+        0.009182555099220722, 
+        -0.0, 
+        0.9999578394521691
+      ], 
+      "transmission": 1.0, 
+      "polarization_normal": [
+        0.0, 
+        1.0, 
+        0.0
+      ], 
+      "divergence": 0.0, 
+      "polarization_fraction": 0.999, 
+      "flux": 0.0, 
+      "sigma_divergence": 0.0, 
+      "wavelength": 0.885
+    }
+  ], 
+  "scaling_model": [], 
+  "detector": [
+    {
+      "hierarchy": {
+        "origin": [
+          0.0, 
+          0.0, 
+          0.0
+        ], 
+        "fast_axis": [
+          1.0, 
+          0.0, 
+          0.0
+        ], 
+        "name": "", 
+        "raw_image_offset": [
+          0, 
+          0
+        ], 
+        "slow_axis": [
+          0.0, 
+          1.0, 
+          0.0
+        ], 
+        "material": "", 
+        "mask": [], 
+        "thickness": 0.0, 
+        "mu": 0.0, 
+        "gain": 1.0, 
+        "trusted_range": [
+          0.0, 
+          0.0
+        ], 
+        "image_size": [
+          0, 
+          0
+        ], 
+        "px_mm_strategy": {
+          "type": "SimplePxMmStrategy"
+        }, 
+        "pedestal": 0.0, 
+        "identifier": "", 
+        "type": "", 
+        "children": [
+          {
+            "panel": 0
+          }
+        ], 
+        "pixel_size": [
+          0.0, 
+          0.0
+        ]
+      }, 
+      "panels": [
+        {
+          "origin": [
+            -131.94824912276312, 
+            143.7909641779472, 
+            -172.81388320750904
+          ], 
+          "fast_axis": [
+            0.9997968018810155, 
+            0.015390208438101592, 
+            -0.013019079565209495
+          ], 
+          "name": "Panel", 
+          "raw_image_offset": [
+            0, 
+            0
+          ], 
+          "slow_axis": [
+            0.015429921159605094, 
+            -0.9998765839102702, 
+            0.002955415526929239
+          ], 
+          "material": "Si", 
+          "mask": [
+            [
+              487, 
+              0, 
+              494, 
+              1679
+            ], 
+            [
+              981, 
+              0, 
+              988, 
+              1679
+            ], 
+            [
+              0, 
+              195, 
+              1475, 
+              212
+            ], 
+            [
+              0, 
+              407, 
+              1475, 
+              424
+            ], 
+            [
+              0, 
+              619, 
+              1475, 
+              636
+            ], 
+            [
+              0, 
+              831, 
+              1475, 
+              848
+            ], 
+            [
+              0, 
+              1043, 
+              1475, 
+              1060
+            ], 
+            [
+              0, 
+              1255, 
+              1475, 
+              1272
+            ], 
+            [
+              0, 
+              1467, 
+              1475, 
+              1484
+            ]
+          ], 
+          "thickness": 1.0, 
+          "mu": 2.942639133071148, 
+          "gain": 1.0, 
+          "trusted_range": [
+            -1.0, 
+            1251409.0
+          ], 
+          "image_size": [
+            1475, 
+            1679
+          ], 
+          "px_mm_strategy": {
+            "type": "ParallaxCorrectedPxMmStrategy"
+          }, 
+          "pedestal": 0.0, 
+          "identifier": "", 
+          "type": "SENSOR_PAD", 
+          "pixel_size": [
+            0.17200000000000001, 
+            0.17200000000000001
+          ]
+        }
+      ]
+    }
+  ]
+}
