@@ -25,14 +25,9 @@ space_group=1
 waittime = 0
 nproc=10
 
-if user_credential_file is not None:
-    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(user_credential_file,scope)
-    gc = gspread.authorize(credentials)
-else:
-    gc = None
-
-
+scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+credentials = ServiceAccountCredentials.from_json_keyfile_name(user_credential_file,scope)
+gc = gspread.authorize(credentials)
 
 
 if datadir[-1] != "/":
@@ -145,7 +140,7 @@ def process_data(directory):
 
     FNULL = open(devnull, 'w')
     #import data
-    command = f"dials.import invert_rotation_axis=True reference_geometry={reference_geo} image_range=1,5 {directory}/*.cbf"
+    command = f"dials.import reference_geometry={reference_geo} image_range=1,5 {directory}/*.cbf"
     call(command.split(), cwd=process_dir, stdout=FNULL, stderr=STDOUT)
 
     #find spots
@@ -176,6 +171,7 @@ def process_data(directory):
 def push_databse_to_sheets():
     #This is bad control flow
     #TODO: instantiate the database properly and sensibly
+    gc = gspread.authorize(credentials)
     if database is not None and gc is not None and 'Vertical Axis' in database:
         workbook = gc.open(results_filename)
         gd.set_with_dataframe(workbook.worksheet('Sheet1'), database[["base", "Vertical Axis", "Alignment Error", "Percent Indexed", "Resolution Estimate", "a","b","c","alpha","beta","gamma"]])
