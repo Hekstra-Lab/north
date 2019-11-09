@@ -33,8 +33,6 @@ else:
     gc = None
 
 
-#Global variables are evil
-database = None
 
 
 if datadir[-1] != "/":
@@ -43,6 +41,12 @@ if workdir[-1] != "/":
     workdir += "/"
 
 dbFN = workdir + "database.h5"
+
+#Global variables are evil
+if exists(dbFN):
+    database = pd.read_hdf(dbFN)
+else:
+    database = None
 
 def check_for_new_data():
     directories = [datadir + i for i in listdir(datadir) if isdir(datadir + i)]
@@ -183,9 +187,10 @@ while True:
         print(f"Working on directory: {directory}")
         db_entry = process_data(directory)
         if db_entry is None:
-             print(f"Failed processing {directory}.")
+            print(f"Failed processing {directory}.")
         else:
-             database = pd.concat((database, db_entry))
-             database.to_hdf(dbFN, 'database')
+            database = pd.concat((database, db_entry))
+            database.sort_values(by='base', inplace=True)           
+            database.to_hdf(dbFN, 'database')
         push_databse_to_sheets()
     sleep(waittime)
