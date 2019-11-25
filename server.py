@@ -1,41 +1,65 @@
 import numpy as np 
 import pandas as pd
+import gspread
+import gspread_dataframe as gd
+import argparse
 import re
+import tempfile
+from multiprocessing import cpu_count
 from io import StringIO
 from os import listdir,devnull
 from os.path import isdir,exists
 from subprocess import call,STDOUT
 from time import sleep
-import gspread
-import gspread_dataframe as gd
 from oauth2client.service_account import ServiceAccountCredentials
 
-datadir = "/home/userbmc/hekstra_201911/"
-workdir= "/home/userbmc/processing_201911/"
-reference_geo="/home/userbmc/processing/reference_geometry.expt"
-sigma_cutoff = 1.5
-user_credential_file="/home/userbmc/aps_bmc_screening.json"
-results_filename = "Screening Results"
 
-if not exists(workdir):
-    call(['mkdir', '-p', workdir])
+description = """North is a command line server for indexing test diffraction images. Results are uploaded with some basic statistics to a Google Spreadsheet"""
 
-space_group=1
+parser = argparse.ArgumentParser(description=description)
+parser.add_argument("data_directory", help="Directory containing test shots.", type=str)
+parser.add_argument("database_filename", help="Location of the HDF5 database file saved by North. This can be a new file or North can be initialized from a pre-existing database.", type=str)
+parser.add_argument("reference_geo_file", help="Reference DIALS experimental geometry file", type=str)
+parser.add_argument("user_credentials", help="JSON file with Google API access credentials", type=str)
+parser.add_argument("results_filename", help="Google sheets results filename. This needs to be created in advance by the user")
+parser.add_argument("-t", "--temp", help="Temporary directory for running dials. The specified directory will not be cleaned on exit.",  type=str, default=None)
+parser.add_argument("-c", "--sigma-cutoff", help="I over Sigma(I) cutoff for the resolution estimate in Ångstroms", type=float, default=1.5)
+parser.add_argument("-p", "--nproc", help="Number of processors to use for dials programs.", default=cpu_count()-1,  type=int)
+parser.add_argument("-w", "--wait-time", help="Wait time in seconds between Google API requests.",  type=int)
+parser.add_argument("--space-group-number", help="Space group number for indexing. Defaults to 1 (P1).", default=1,  type=int)
+parser.add_argument("-e", "--email", help="Email(s) of users you want to access this spreadsheet.", type=str, nargs='+')
 
-waittime = 0
-nproc=10
+parser = parser.parse_args()
 
-scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-credentials = ServiceAccountCredentials.from_json_keyfile_name(user_credential_file,scope)
-gc = gspread.authorize(credentials)
+if parser.temp is not None:
+    tmpdir_name = parser.temp
+else:
+    tmpdir = tempfile.TemporaryDirectory()
+    tmpdir_name = tmpdir.name
+
+datadir       = parser.data_directory
+reference_geo = parser.reference_geo_file
+sigma_cutoff  = parser.sigma_cutoff
+user_credential_file = parser.user_credentials
+results_filename = parser.results_filename
+nproc = parser.nproc
+waittime = parser.wait_time
+space_group = parser.space_group_number
 
 
 if datadir[-1] != "/":
     datadir += "/"
-if workdir[-1] != "/":
-    workdir += "/"
 
-dbFN = workdir + "database.h5"
+scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+credentials = ServiceAccountCredentials.from_json_keyfile_name(user_credential_file,scope)
+gc = gspread.authorize(credentials)
+sh = gc.create(results_filename)
+
+if parser.email is not None:
+    for addr in parser.email:
+        sh.share(addr, perm_type='user', role='writer')
+
+dbFN = parser.database_filename
 
 #Global variables are evil
 if exists(dbFN):
@@ -127,14 +151,19 @@ def parse_dials_output(directory):
         table = re.search(r'(?<=Summary vs resolution).*?\n\n', text, re.DOTALL).group()
         table = re.sub(r'[|-]', '', table).strip()
         df = pd.read_csv(StringIO(table), skiprows=3, delim_whitespace=True, usecols=[1, 10], names=['d_min', 'SNR'])
-        estimate = df[df['SNR'] > sigma_cutoff]['d_min'].min()
+        #estimate = df[df['SNR'] > sigma_cutoff]['d_min'].min()
+
+    inFN   = directory + 'dials.resolutionizer.log'
+    if exists(inFN) and exists(reflFN):
+        text = open(inFN).read()
+        estimate = float(re.search('(?<=Resolution I/sig:)[0-9\.\s]*$', text, re.MULTILINE).group())
         entry["Resolution Estimate"] = estimate
 
     return entry
 
 
 def process_data(directory):
-    process_dir="/tmp/hekstra/directory" + directory
+    process_dir= tmpdir_name + directory
     print(f"Processing directory {directory} in {process_dir}...")
     call(['mkdir', '-p', process_dir])
 
@@ -159,6 +188,10 @@ def process_data(directory):
     command=f"dials.integrate refined.expt refined.refl nproc={nproc}"
     call(command.split(), cwd=process_dir, stdout=FNULL, stderr=STDOUT)
 
+    #resolution estimate
+    command=f"dials.resolutionizer integrated.expt integrated.refl"
+    call(command.split(), cwd=process_dir, stdout=FNULL, stderr=STDOUT)
+
     FNULL.close()
 
     db_entry = parse_dials_output(process_dir)
@@ -174,8 +207,13 @@ def push_databse_to_sheets():
     gc = gspread.authorize(credentials)
     if database is not None and gc is not None and 'Vertical Axis' in database:
         workbook = gc.open(results_filename)
-        gd.set_with_dataframe(workbook.worksheet('Sheet1'), database[["base", "Vertical Axis", "Alignment Error", "Percent Indexed", "Resolution Estimate", "a","b","c","alpha","beta","gamma"]])
-        gd.set_with_dataframe(workbook.worksheet('Sheet2'), database)
+        sh1 = workbook.get_worksheet(0)
+        sh2 = workbook.get_worksheet(1)
+        if sh2 is None:
+            sh2 = workbook.add_worksheet(title="Sheet2", rows=500, cols=20)
+
+        gd.set_with_dataframe(sh1, database[["base", "Vertical Axis", "Alignment Error", "Percent Indexed", "Resolution Estimate", "a","b","c","alpha","beta","gamma"]])
+        gd.set_with_dataframe(sh2, database)
 
 while True:
     new_directories = check_for_new_data()
