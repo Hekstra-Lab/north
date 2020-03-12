@@ -198,7 +198,8 @@ def process_data(directory):
     if db_entry is None:
         db_entry = pd.DataFrame()
     db_entry['directory'] = directory
-    db_entry['base'] = int(re.search(r'(?<=base)[0-9]*', directory).group())
+    #Any directory which is like base{alphanumeric} will be considered
+    db_entry['base'] = re.search(r'(?<=base)[(0-9)|(a-z)|(A-Z)]*', directory).group())
     return db_entry
 
 def push_databse_to_sheets():
